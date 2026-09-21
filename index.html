@@ -249,6 +249,11 @@
     .anniv{flex-direction:column; align-items:flex-start; gap:12px;}
     .bar-row{grid-template-columns:92px 1fr 78px; gap:8px;}
     .bar-row .pct{display:none;}
+    /* drop the two reference columns so date, details and the money
+       fit without a sideways swipe */
+    .col-val,.col-cat{display:none;}
+    table{min-width:400px;}
+    th,td{padding:9px 10px;}
   }
   /* touch devices: 29px-tall controls are too small to hit, and a hover
      hint promises something a finger cannot do */
@@ -371,7 +376,7 @@
       <table>
         <thead>
           <tr>
-            <th>תאריך</th><th>ת. ערך</th><th>פרטים</th><th>קטגוריה</th>
+            <th>תאריך</th><th class="col-val">ת. ערך</th><th>פרטים</th><th class="col-cat">קטגוריה</th>
             <th>חובה</th><th>זכות</th><th>יתרה בחובה</th>
           </tr>
         </thead>
@@ -695,9 +700,9 @@
       if (t.credit) tr.className = "is-credit";
       [
         ["n", t.d],
-        ["n", t.v],
+        ["n col-val", t.v],
         ["", t.desc],
-        ["", t.cat],
+        ["col-cat", t.cat],
         ["n debit", t.debit ? ILS(t.debit) : "—"],
         ["n credit", t.credit ? ILS(t.credit) : "—"],
         ["n bal", ILS(Math.abs(t.bal))]
