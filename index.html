@@ -1,0 +1,772 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex, nofollow"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui;background:#f6f6f2}img{max-width:100%}[hidden]{display:none!important}</style><title>חשבון קהילה שדה יואב</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700&family=Frank+Ruhl+Libre:wght@700;900&display=swap">
+<style>
+  :root{
+    --plane:#f6f6f2; --surface:#fdfdfb; --surface-2:#f1f1ec; --surface-3:#e9e9e2;
+    --ink:#12130f; --ink-2:#53554c; --muted:#8a8c80;
+    --grid:#e3e3da; --axis:#c5c6ba; --line:rgba(18,19,15,.11); --line-2:rgba(18,19,15,.06);
+    --series:#2a78d6; --series-soft:rgba(42,120,214,.13); --series-ghost:rgba(42,120,214,.05);
+    --good:#0ca30c; --good-ink:#006300; --good-soft:rgba(12,163,12,.10);
+    --critical:#d03b3b; --critical-ink:#b32b2b; --critical-soft:rgba(208,59,59,.10);
+    --warning:#fab219;
+    --brand:#4d6b25; --brand-soft:rgba(77,107,37,.10);
+    --sans:"Assistant",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --serif:"Frank Ruhl Libre",Georgia,"Times New Roman",serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --plane:#0e0f0c; --surface:#191a17; --surface-2:#212320; --surface-3:#2a2c27;
+      --ink:#ffffff; --ink-2:#c4c5b8; --muted:#8a8c80;
+      --grid:#2b2d28; --axis:#3a3c36; --line:rgba(255,255,255,.11); --line-2:rgba(255,255,255,.06);
+      --series:#3987e5; --series-soft:rgba(57,135,229,.20); --series-ghost:rgba(57,135,229,.08);
+      --good:#0ca30c; --good-ink:#4cc04c; --good-soft:rgba(12,163,12,.16);
+      --critical:#d03b3b; --critical-ink:#ec8180; --critical-soft:rgba(208,59,59,.18);
+      --brand:#96b262; --brand-soft:rgba(150,178,98,.13);
+    }
+  }
+  :root[data-theme="dark"]{
+    --plane:#0e0f0c; --surface:#191a17; --surface-2:#212320; --surface-3:#2a2c27;
+    --ink:#ffffff; --ink-2:#c4c5b8; --muted:#8a8c80;
+    --grid:#2b2d28; --axis:#3a3c36; --line:rgba(255,255,255,.11); --line-2:rgba(255,255,255,.06);
+    --series:#3987e5; --series-soft:rgba(57,135,229,.20); --series-ghost:rgba(57,135,229,.08);
+    --good:#0ca30c; --good-ink:#4cc04c; --good-soft:rgba(12,163,12,.16);
+    --critical:#d03b3b; --critical-ink:#ec8180; --critical-soft:rgba(208,59,59,.18);
+    --brand:#96b262; --brand-soft:rgba(150,178,98,.13);
+  }
+
+  body{
+    background:var(--plane); color:var(--ink);
+    font-family:var(--sans); font-size:15px; line-height:1.55;
+    direction:rtl; text-align:right;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1060px; margin:0 auto; padding-inline:18px; padding-block:26px 56px;}
+  h1,h2,h3{margin:0; font-family:var(--serif); font-weight:700; text-wrap:balance; letter-spacing:-.01em;}
+  p{margin:0;}
+  .num{font-variant-numeric:tabular-nums; font-feature-settings:"tnum" 1;}
+  .eyebrow{
+    font-size:11.5px; font-weight:700; letter-spacing:.09em;
+    color:var(--muted); text-transform:none;
+  }
+
+  /* ---------- statement head ---------- */
+  .head{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:20px 22px; display:grid; gap:20px;
+    grid-template-columns:auto 1fr auto; align-items:start;
+  }
+  .head .who{display:flex; flex-direction:column; gap:3px; min-width:0;}
+  .mark{
+    width:74px; height:auto; display:block; flex:none;
+    background:#fff; border-radius:15px; padding:7px;
+    border:1px solid var(--line); box-shadow:0 1px 3px rgba(0,0,0,.07);
+  }
+  .crest{
+    display:inline-flex; align-items:center; gap:8px; margin-bottom:9px;
+    font-size:12px; font-weight:700; color:var(--brand);
+  }
+  .crest span.dot{width:9px; height:9px; border-radius:50%; background:var(--brand); flex:none;}
+  h1{font-size:27px; line-height:1.2;}
+  .meta{font-size:13px; color:var(--ink-2);}
+  .meta b{font-weight:600; color:var(--ink);}
+  .stamp{
+    display:flex; flex-direction:column; align-items:flex-start; gap:2px;
+    padding:12px 16px; border-radius:11px;
+    background:var(--critical-soft); border:1px solid rgba(208,59,59,.25);
+  }
+  .stamp .lbl{font-size:12px; font-weight:600; color:var(--critical-ink);}
+  .stamp .big{
+    font-family:var(--sans); font-size:36px; font-weight:700; line-height:1.05;
+    color:var(--critical-ink); font-variant-numeric:tabular-nums;
+  }
+  .stamp .sub{font-size:12px; color:var(--critical-ink); opacity:.85;}
+
+  /* ---------- kpi row ---------- */
+  .kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:12px;}
+  .kpi{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px;
+    padding:13px 15px; display:flex; flex-direction:column; gap:1px;
+  }
+  .kpi .k{font-size:12.5px; color:var(--ink-2); font-weight:600;}
+  .kpi .v{font-size:23px; font-weight:700; line-height:1.25; font-variant-numeric:tabular-nums;}
+  .kpi .n{font-size:11.5px; color:var(--muted);}
+  .kpi.paid{border-inline-end:3px solid var(--good);}
+  .kpi.paid .v{color:var(--good-ink);}
+
+  /* ---------- sections ---------- */
+  section{margin-top:30px;}
+  .sec-head{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-bottom:11px;}
+  .sec-head h2{font-size:19px;}
+  .sec-head .note{font-size:12.5px; color:var(--muted);}
+  .panel{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:18px;}
+  .cols{display:grid; grid-template-columns:1.35fr 1fr; gap:14px; align-items:start;}
+
+  /* ---------- toggle ---------- */
+  .seg{display:inline-flex; background:var(--surface-2); border-radius:9px; padding:3px; gap:3px; margin-inline-start:auto;}
+  .seg button{
+    font:inherit; font-size:12.5px; font-weight:600; color:var(--ink-2);
+    background:none; border:0; border-radius:7px; padding:5px 11px; cursor:pointer;
+    font-variant-numeric:tabular-nums;
+  }
+  .seg button:hover{color:var(--ink);}
+  .seg button[aria-pressed="true"]{background:var(--surface); color:var(--ink); box-shadow:0 1px 2px rgba(0,0,0,.09);}
+  button:focus-visible, .chip:focus-visible{outline:2px solid var(--series); outline-offset:2px;}
+
+  /* ---------- bars ---------- */
+  .bars{display:flex; flex-direction:column; gap:3px;}
+  .bar-row{
+    display:grid; grid-template-columns:112px 1fr 86px 46px; gap:11px;
+    align-items:center; padding:6px 7px; border-radius:8px; cursor:default;
+    transition:background .12s ease;
+  }
+  .bar-row:hover{background:var(--series-ghost);}
+  .bar-row .cat{font-size:13.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .track{position:relative; height:17px; background:var(--surface-2); border-radius:3px; overflow:hidden;}
+  .fill{
+    display:block; height:100%; background:var(--series);
+    border-start-end-radius:4px; border-end-end-radius:4px;
+    transition:width .45s cubic-bezier(.22,.7,.3,1);
+  }
+  .bar-row .val{font-size:13.5px; font-weight:600; text-align:start; font-variant-numeric:tabular-nums;}
+  .bar-row .pct{font-size:12px; color:var(--muted); text-align:start; font-variant-numeric:tabular-nums;}
+  .bar-detail{
+    grid-column:1 / -1; font-size:12px; color:var(--ink-2);
+    padding-inline-start:2px; margin-top:-2px;
+  }
+  .bars-foot{
+    display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
+    margin-top:12px; padding-top:11px; border-top:1px solid var(--line-2);
+    font-size:12.5px; color:var(--ink-2);
+  }
+
+  /* ---------- payment card ---------- */
+  .pay{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:18px;
+    border-inline-end:3px solid var(--good);
+  }
+  .pay .amt{font-size:27px; font-weight:700; color:var(--good-ink); line-height:1.2; font-variant-numeric:tabular-nums;}
+  .pay .when{font-size:12.5px; color:var(--ink-2); margin-bottom:12px;}
+  .covered{list-style:none; margin:0; padding:0; display:flex; flex-direction:column;}
+  .covered li{
+    display:flex; justify-content:space-between; gap:10px;
+    font-size:12.5px; padding:4.5px 0; border-bottom:1px solid var(--line-2);
+  }
+  .covered li:last-child{border-bottom:0;}
+  .covered li span:last-child{font-variant-numeric:tabular-nums; color:var(--ink-2); flex:none;}
+  .covered li.tot{font-weight:700; padding-top:7px; border-top:1px solid var(--line); border-bottom:0; margin-top:3px;}
+
+  /* ---------- timeline chart ---------- */
+  .chart-box{position:relative; direction:ltr;}
+  .chart-box svg{display:block; width:100%; height:auto; max-width:100%; overflow:visible;}
+  .tip{
+    position:absolute; pointer-events:none; z-index:5; direction:rtl; text-align:right;
+    background:var(--surface); color:var(--ink);
+    border:1px solid var(--line); border-radius:9px; padding:7px 10px;
+    box-shadow:0 6px 20px rgba(0,0,0,.14);
+    font-size:12.5px; line-height:1.45; white-space:nowrap;
+    opacity:0; transform:translate(-50%,-115%); transition:opacity .1s ease;
+  }
+  .tip .t-d{color:var(--muted); font-size:11.5px;}
+  .tip .t-v{font-weight:700; font-variant-numeric:tabular-nums;}
+  .tip .t-n{color:var(--ink-2);}
+
+  /* ---------- delta chips ---------- */
+  .deltas{display:grid; grid-template-columns:repeat(4,1fr); gap:10px;}
+  .delta{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:13px 15px;
+    display:flex; flex-direction:column; gap:2px;
+  }
+  .delta .k{font-size:12.5px; font-weight:600; color:var(--ink-2);}
+  .delta .flow{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums;}
+  .delta .d{font-size:20px; font-weight:700; font-variant-numeric:tabular-nums; display:flex; align-items:center; gap:5px;}
+  .delta .d.up{color:var(--critical-ink);}
+  .delta .d.flat{color:var(--ink-2);}
+  .delta .d .arrow{font-size:14px;}
+  .delta .d .dv{direction:ltr; unicode-bidi:isolate;}
+  .bar-row .val .cur{font-size:12px; color:var(--muted); font-weight:600;}
+
+  /* ---------- table ---------- */
+  .chips{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:11px;}
+  .chip{
+    font:inherit; font-size:12.5px; font-weight:600; cursor:pointer;
+    background:var(--surface); color:var(--ink-2);
+    border:1px solid var(--line); border-radius:999px; padding:4px 12px;
+  }
+  .chip:hover{color:var(--ink); border-color:var(--axis);}
+  .chip[aria-pressed="true"]{background:var(--ink); color:var(--plane); border-color:var(--ink);}
+  .t-scroll{overflow-x:auto; border:1px solid var(--line); border-radius:14px; background:var(--surface);}
+  table{border-collapse:collapse; width:100%; min-width:620px; font-size:13px;}
+  th,td{padding:9px 13px; text-align:right; white-space:nowrap;}
+  thead th{
+    font-size:11.5px; font-weight:700; color:var(--muted);
+    border-bottom:1px solid var(--line); background:var(--surface-2);
+    position:sticky; top:0;
+  }
+  tbody tr{border-bottom:1px solid var(--line-2);}
+  tbody tr:last-child{border-bottom:0;}
+  tbody tr:hover{background:var(--series-ghost);}
+  td.n{font-variant-numeric:tabular-nums;}
+  td.debit{color:var(--ink); font-weight:600;}
+  td.credit{color:var(--good-ink); font-weight:700;}
+  td.bal{color:var(--ink-2); font-weight:600;}
+  tr.is-credit{background:var(--good-soft);}
+  tr.is-credit:hover{background:var(--good-soft);}
+  tr.is-credit td.bal{color:var(--good-ink);}
+  .t-foot{
+    display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+    padding:11px 14px; border-top:1px solid var(--line); background:var(--surface-2);
+    font-size:12.5px; color:var(--ink-2); font-variant-numeric:tabular-nums;
+  }
+
+  /* ---------- anniversary strip + footer ---------- */
+  footer{margin-top:34px;}
+  .anniv{
+    display:flex; align-items:center; gap:18px;
+    background:var(--brand-soft); border:1px solid var(--line);
+    border-radius:14px; padding:16px 18px;
+  }
+  .anniv svg{width:104px; height:104px; flex:none; display:block;}
+  .anniv .txt{min-width:0;}
+  .anniv .t{font-family:var(--serif); font-size:18px; font-weight:700; margin-bottom:3px;}
+  .anniv p{font-size:13px; color:var(--ink-2); max-width:62ch;}
+  .foot-notes{
+    margin-top:16px; padding-top:14px; border-top:1px solid var(--line);
+    font-size:12px; color:var(--muted);
+    display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  }
+
+  @media (max-width:860px){
+    .kpis{grid-template-columns:repeat(2,1fr);}
+    .deltas{grid-template-columns:repeat(2,1fr);}
+    .cols{grid-template-columns:1fr;}
+  }
+  @media (max-width:560px){
+    .head{grid-template-columns:auto 1fr;}
+    .stamp{grid-column:1 / -1; align-self:stretch;}
+    .mark{width:58px;}
+    h1{font-size:23px;}
+    .anniv{flex-direction:column; align-items:flex-start; gap:12px;}
+    .bar-row{grid-template-columns:92px 1fr 78px; gap:8px;}
+    .bar-row .pct{display:none;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none !important;}
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="head">
+    <img class="mark" src="assets/logo-sde-yoav.png" width="440" height="408" alt="הלוגו של קיבוץ שדה יואב">
+    <div class="who">
+      <div class="crest"><span class="dot"></span>קיבוץ שדה יואב — קהילה</div>
+      <h1>כהן לירון · דף חשבון</h1>
+      <p class="meta">אסמכתא <b class="num">5440042</b> · הופק <b class="num">14/07/26</b> · תקופה <b class="num">25/05/26 – 14/07/26</b></p>
+      <p class="meta">18 תנועות · 17 חיובים · תשלום אחד</p>
+    </div>
+    <div class="stamp">
+      <div class="lbl">היתרה שלכם בחובה</div>
+      <div class="big">3,424.54 ₪</div>
+      <div class="sub">נצברה מאז התשלום ב־16/06/26</div>
+    </div>
+  </header>
+
+  <div class="kpis">
+    <div class="kpi">
+      <div class="k">סך החיובים בתקופה</div>
+      <div class="v">6,225.09 ₪</div>
+      <div class="n">17 חיובים</div>
+    </div>
+    <div class="kpi paid">
+      <div class="k">שולם</div>
+      <div class="v">2,800.55 ₪</div>
+      <div class="n">45% מהחיובים</div>
+    </div>
+    <div class="kpi">
+      <div class="k">נותר לתשלום</div>
+      <div class="v">3,424.54 ₪</div>
+      <div class="n">7 חיובים פתוחים</div>
+    </div>
+    <div class="kpi">
+      <div class="k">מאז התשלום האחרון</div>
+      <div class="v">28 ימים</div>
+      <div class="n">122 ₪ ליום בממוצע</div>
+    </div>
+  </div>
+
+  <section>
+    <div class="sec-head">
+      <h2>על מה החוב</h2>
+      <span class="note">עברו על שורה לפירוט</span>
+      <div class="seg" role="group" aria-label="טווח החישוב">
+        <button type="button" id="seg-open" aria-pressed="true">היתרה הפתוחה · 3,424.54 ₪</button>
+        <button type="button" id="seg-all" aria-pressed="false">כל התקופה · 6,225.09 ₪</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="bars" id="bars"></div>
+      <div class="bars-foot">
+        <span id="bars-foot-a"></span>
+        <span id="bars-foot-b"></span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>מסלול היתרה</h2>
+      <span class="note">החוב לפי תאריך ערך — הנקודה הירוקה היא התשלום</span>
+    </div>
+    <div class="cols">
+      <div class="panel">
+        <div class="chart-box" id="chart-box">
+          <svg id="chart" viewBox="0 0 720 268" role="img" aria-label="גרף יתרת החוב מ-25 במאי עד 14 ביולי 2026: החוב טיפס ל-2,800.55 ש״ח, אופס בתשלום ב-16 ביוני, ומאז חזר ל-3,424.54 ש״ח."></svg>
+          <div class="tip" id="tip" aria-hidden="true"></div>
+        </div>
+      </div>
+      <div class="pay">
+        <div class="eyebrow">התשלום היחיד בתקופה</div>
+        <div class="amt">2,800.55 ₪</div>
+        <div class="when">16/06/26 · אסמכתא 14115 · סעיף &quot;חיובים&quot; · איפס את היתרה ל־0.00</div>
+        <ul class="covered">
+          <li><span>חינוך שכירות 6.26</span><span>1,200.00</span></li>
+          <li><span>חשמל 5/26</span><span>823.41</span></li>
+          <li><span>סל שירותים 05.2026</span><span>550.00</span></li>
+          <li><span>מים 5/26 (הקצאה + חריגה)</span><span>86.11</span></li>
+          <li><span>אינטרנט 05.2026</span><span>46.00</span></li>
+          <li><span>ביטוח סיעודי 05.2026</span><span>32.00</span></li>
+          <li><span>חגיגת נובי גוד 2026</span><span>50.00</span></li>
+          <li><span>ביוב 5.2026</span><span>13.03</span></li>
+          <li class="tot"><span>סה״כ 9 חיובים</span><span>2,800.55</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>מאי מול יוני</h2>
+      <span class="note">חיובים חודשיים בלבד, ללא חינוך — 1,550.55 ₪ ← 2,224.54 ₪ (+43.5%)</span>
+    </div>
+    <div class="deltas" id="deltas"></div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>כל התנועות</h2>
+      <span class="note" id="rows-note"></span>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div class="t-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>תאריך</th><th>ת. ערך</th><th>פרטים</th><th>קטגוריה</th>
+            <th>חובה</th><th>זכות</th><th>יתרה בחובה</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div class="t-foot">
+        <span id="foot-count"></span>
+        <span id="foot-sum"></span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="anniv">
+      <svg id="seal" viewBox="0 0 200 200" role="img"
+           aria-label="חותם חג הקיבוץ ה-60 של שדה יואב, עם טרקטור בשדות והכיתוב נושמים עבר, יוצרים מחר"></svg>
+      <div class="txt">
+        <div class="t">60 שנה לשדה יואב</div>
+        <p>הקיבוץ הוקם ביוני 1966 על ידי גרעין נח״ל של השומר הצעיר, וציין שישה עשורים באירוע קהילתי ב־9 ביולי 2026 — חמישה ימים לפני שהופק דף החשבון שמנותח כאן. כיום חיים בו כ־600 תושבים בכ־200 בתי אב.</p>
+      </div>
+    </div>
+    <div class="foot-notes">
+      <span>המספרים נלקחו כלשונם מדף החשבון מס׳ 5440042 מיום 14/07/26.</span>
+      <span>הנה״ח שדה יואב · 08-6721202</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var ILS = function(v, dec){
+    dec = dec === undefined ? 2 : dec;
+    return v.toLocaleString("he-IL",{minimumFractionDigits:dec, maximumFractionDigits:dec});
+  };
+
+  /* ---------- source data: every row of the statement ---------- */
+  var TX = [
+    {d:"25/01/26", v:"25/05/26", a:"0",     desc:"חגיגת נובי גוד 2026",   cat:"אירועי קהילה",  debit:50.00,   credit:0,       bal:-50.00},
+    {d:"30/05/26", v:"30/05/26", a:"526",   desc:"ביטוח סיעודי 05.2026",  cat:"ביטוח סיעודי",  debit:32.00,   credit:0,       bal:-82.00},
+    {d:"31/05/26", v:"31/05/26", a:"526",   desc:"חשמל 5/26",             cat:"חשמל",          debit:823.41,  credit:0,       bal:-905.41},
+    {d:"31/05/26", v:"31/05/26", a:"526",   desc:"מים בהקצאה 1974-/5",    cat:"מים",           debit:47.66,   credit:0,       bal:-953.07},
+    {d:"31/05/26", v:"31/05/26", a:"526",   desc:"מים מעבר להקצאה",       cat:"מים",           debit:38.45,   credit:0,       bal:-991.52},
+    {d:"31/05/26", v:"31/05/26", a:"526",   desc:"סל שירותים 05.2026",    cat:"סל שירותים",    debit:550.00,  credit:0,       bal:-1541.52},
+    {d:"31/05/26", v:"31/05/26", a:"526",   desc:"אינטרנט 05.2026",       cat:"אינטרנט",       debit:46.00,   credit:0,       bal:-1587.52},
+    {d:"31/05/26", v:"31/05/26", a:"526",   desc:"ביוב 5.2026",           cat:"ביוב",          debit:13.03,   credit:0,       bal:-1600.55},
+    {d:"15/06/26", v:"15/06/26", a:"64719", desc:"חינוך שכירות 6.26",     cat:"חינוך",         debit:1200.00, credit:0,       bal:-2800.55},
+    {d:"16/06/26", v:"16/06/26", a:"14115", desc:"חיובים",                cat:"תשלום",         debit:0,       credit:2800.55, bal:0.00},
+    {d:"30/06/26", v:"30/06/26", a:"626",   desc:"סל שירותים 06.2026",    cat:"סל שירותים",    debit:550.00,  credit:0,       bal:-550.00},
+    {d:"30/06/26", v:"30/06/26", a:"626",   desc:"ביטוח סיעודי 06.2026",  cat:"ביטוח סיעודי",  debit:32.00,   credit:0,       bal:-582.00},
+    {d:"30/06/26", v:"30/06/26", a:"626",   desc:"אינטרנט 06.2026",       cat:"אינטרנט",       debit:46.00,   credit:0,       bal:-628.00},
+    {d:"30/06/26", v:"30/06/26", a:"626",   desc:"ביוב 6.2026",           cat:"ביוב",          debit:25.02,   credit:0,       bal:-653.02},
+    {d:"30/06/26", v:"30/06/26", a:"626",   desc:"חשמל 6/26",             cat:"חשמל",          debit:1125.43, credit:0,       bal:-1778.45},
+    {d:"30/06/26", v:"30/06/26", a:"626",   desc:"מים 6/26 (בהקצאה)",     cat:"מים",           debit:47.66,   credit:0,       bal:-1826.11},
+    {d:"30/06/26", v:"30/06/26", a:"626",   desc:"מים 6/26 (מעבר להקצאה)",cat:"מים",           debit:398.43,  credit:0,       bal:-2224.54},
+    {d:"14/07/26", v:"14/07/26", a:"64922", desc:"חינוך 7.26",            cat:"חינוך",         debit:1200.00, credit:0,       bal:-3424.54}
+  ];
+
+  /* ---------- breakdown: open balance vs. whole period ---------- */
+  var VIEWS = {
+    open:{
+      total:3424.54,
+      foot:["7 חיובים פתוחים מ־30/06/26 ו־14/07/26","שני סעיפים — חינוך וחשמל — הם 68% מהחוב"],
+      items:[
+        {cat:"חינוך",        val:1200.00, note:"חיוב 7.26 מיום 14/07/26"},
+        {cat:"חשמל",         val:1125.43, note:"חשמל 6/26 — הסעיף המשתנה הגדול ביותר"},
+        {cat:"סל שירותים",   val:550.00,  note:"תעריף חודשי קבוע"},
+        {cat:"מים",          val:446.09,  note:"47.66 בהקצאה + 398.43 מעבר להקצאה"},
+        {cat:"אינטרנט",      val:46.00,   note:"תעריף חודשי קבוע"},
+        {cat:"ביטוח סיעודי", val:32.00,   note:"תעריף חודשי קבוע"},
+        {cat:"ביוב",         val:25.02,   note:"חיוב 6.2026"}
+      ]
+    },
+    all:{
+      total:6225.09,
+      foot:["17 חיובים בין 25/05/26 ל־14/07/26","הקבועים — סל, אינטרנט, סיעודי — 1,256 ₪, או 628 ₪ לחודש"],
+      items:[
+        {cat:"חינוך",        val:2400.00, note:"2 חיובים · 1,200 ₪ לחודש"},
+        {cat:"חשמל",         val:1948.84, note:"מאי 823.41 · יוני 1,125.43"},
+        {cat:"סל שירותים",   val:1100.00, note:"2 חיובים · 550 ₪ לחודש"},
+        {cat:"מים",          val:532.20,  note:"בהקצאה 95.32 · מעבר להקצאה 436.88"},
+        {cat:"אינטרנט",      val:92.00,   note:"2 חיובים · 46 ₪ לחודש"},
+        {cat:"ביטוח סיעודי", val:64.00,   note:"2 חיובים · 32 ₪ לחודש"},
+        {cat:"אירועי קהילה", val:50.00,   note:"חגיגת נובי גוד 2026 — חיוב חד-פעמי"},
+        {cat:"ביוב",         val:38.05,   note:"מאי 13.03 · יוני 25.02"}
+      ]
+    }
+  };
+
+  var barsEl = document.getElementById("bars");
+  var footA = document.getElementById("bars-foot-a");
+  var footB = document.getElementById("bars-foot-b");
+  var segOpen = document.getElementById("seg-open");
+  var segAll  = document.getElementById("seg-all");
+
+  function renderBars(key){
+    var view = VIEWS[key];
+    var max = view.items[0].val;
+    barsEl.textContent = "";
+    view.items.forEach(function(it){
+      var row = document.createElement("div");
+      row.className = "bar-row";
+      row.title = it.cat + " — " + ILS(it.val) + " ₪ · " + it.note;
+
+      var cat = document.createElement("div");
+      cat.className = "cat"; cat.textContent = it.cat;
+
+      var track = document.createElement("div");
+      track.className = "track";
+      var fill = document.createElement("i");
+      fill.className = "fill"; fill.style.width = "0%";
+      track.appendChild(fill);
+
+      var val = document.createElement("div");
+      val.className = "val num"; val.textContent = ILS(it.val) + " ₪";
+
+      var pct = document.createElement("div");
+      pct.className = "pct num"; pct.textContent = (it.val / view.total * 100).toFixed(1) + "%";
+
+      row.appendChild(cat); row.appendChild(track); row.appendChild(val); row.appendChild(pct);
+      barsEl.appendChild(row);
+      requestAnimationFrame(function(){ fill.style.width = (it.val / max * 100) + "%"; });
+    });
+    footA.textContent = view.foot[0];
+    footB.textContent = view.foot[1];
+    segOpen.setAttribute("aria-pressed", key === "open" ? "true" : "false");
+    segAll.setAttribute("aria-pressed",  key === "all"  ? "true" : "false");
+  }
+  segOpen.addEventListener("click", function(){ renderBars("open"); });
+  segAll.addEventListener("click",  function(){ renderBars("all"); });
+  renderBars("open");
+
+  /* ---------- balance timeline ---------- */
+  var SERIES = [
+    {day:0,  label:"25/05/26", bal:50.00,    note:"חגיגת נובי גוד 2026"},
+    {day:5,  label:"30/05/26", bal:82.00,    note:"ביטוח סיעודי 05.2026"},
+    {day:6,  label:"31/05/26", bal:1600.55,  note:"6 חיובי סוף חודש · 1,518.55 ₪"},
+    {day:21, label:"15/06/26", bal:2800.55,  note:"חינוך שכירות 6.26 · 1,200 ₪"},
+    {day:22, label:"16/06/26", bal:0.00,     note:"תשלום 2,800.55 ₪ — היתרה אופסה", paid:true},
+    {day:36, label:"30/06/26", bal:2224.54,  note:"7 חיובי סוף חודש · 2,224.54 ₪"},
+    {day:50, label:"14/07/26", bal:3424.54,  note:"חינוך 7.26 · 1,200 ₪", last:true}
+  ];
+
+  var SVGNS = "http://www.w3.org/2000/svg";
+  var svg = document.getElementById("chart");
+  var tip = document.getElementById("tip");
+  var box = document.getElementById("chart-box");
+  var W = 720, H = 268, PT = 26, PB = 40, PL = 14, PR = 62;
+  var X0 = PL, X1 = W - PR, Y0 = PT, Y1 = H - PB, YMAX = 3600;
+
+  function x(day){ return X0 + day / 50 * (X1 - X0); }
+  function y(val){ return Y1 - val / YMAX * (Y1 - Y0); }
+  function el(tag, attrs){
+    var n = document.createElementNS(SVGNS, tag);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    return n;
+  }
+
+  // gridlines + value ticks (labels on the right edge, RTL reading side)
+  [0, 1200, 2400, 3600].forEach(function(v){
+    svg.appendChild(el("line", {x1:X0, x2:X1, y1:y(v), y2:y(v),
+      stroke:"var(--grid)", "stroke-width":1}));
+    var t = el("text", {x:X1 + 8, y:y(v) + 4, fill:"var(--muted)",
+      "font-size":11, "font-family":"var(--sans)", "font-weight":"500"});
+    t.setAttribute("style","font-variant-numeric:tabular-nums");
+    t.textContent = v === 0 ? "0" : ILS(v, 0);
+    svg.appendChild(t);
+  });
+  svg.appendChild(el("line", {x1:X0, x2:X1, y1:Y1, y2:Y1, stroke:"var(--axis)", "stroke-width":1}));
+
+  // area + line
+  var dArea = "M" + x(0) + "," + Y1;
+  var dLine = "";
+  SERIES.forEach(function(p, i){
+    dArea += " L" + x(p.day).toFixed(1) + "," + y(p.bal).toFixed(1);
+    dLine += (i ? " L" : "M") + x(p.day).toFixed(1) + "," + y(p.bal).toFixed(1);
+  });
+  dArea += " L" + x(50) + "," + Y1 + " Z";
+  svg.appendChild(el("path", {d:dArea, fill:"var(--series-soft)", stroke:"none"}));
+  svg.appendChild(el("path", {d:dLine, fill:"none", stroke:"var(--series)",
+    "stroke-width":2, "stroke-linejoin":"round", "stroke-linecap":"round"}));
+
+  // date ticks — the payment date carries its own label instead of a plain tick
+  var TICKS = [[0,"25/05","start"],[6,"31/05","middle"],[36,"30/06","middle"],[50,"14/07","end"]];
+  TICKS.forEach(function(t){
+    var n = el("text", {x:x(t[0]), y:Y1 + 18, fill:"var(--muted)",
+      "font-size":11, "font-family":"var(--sans)", "text-anchor":t[2]});
+    n.setAttribute("style","font-variant-numeric:tabular-nums");
+    n.textContent = t[1];
+    svg.appendChild(n);
+  });
+
+  // markers
+  SERIES.forEach(function(p){
+    var c = p.paid ? "var(--good)" : "var(--series)";
+    svg.appendChild(el("circle", {cx:x(p.day), cy:y(p.bal), r:p.paid || p.last ? 5.5 : 4,
+      fill:c, stroke:"var(--surface)", "stroke-width":2}));
+  });
+
+  // annotations: the payment, and where it stands now
+  var pay = SERIES[4], last = SERIES[6];
+  var aPay = el("text", {x:x(pay.day), y:Y1 + 18, fill:"var(--good-ink)",
+    "font-size":11.5, "font-family":"var(--sans)", "font-weight":"700", "text-anchor":"middle"});
+  aPay.textContent = "שולם";
+  svg.appendChild(aPay);
+  var aPayD = el("text", {x:x(pay.day), y:Y1 + 32, fill:"var(--good-ink)",
+    "font-size":10.5, "font-family":"var(--sans)", "text-anchor":"middle"});
+  aPayD.setAttribute("style","font-variant-numeric:tabular-nums");
+  aPayD.textContent = "16/06";
+  svg.appendChild(aPayD);
+
+  var aLast = el("text", {x:x(last.day), y:y(last.bal) - 14, fill:"var(--critical-ink)",
+    "font-size":12.5, "font-family":"var(--sans)", "font-weight":"700", "text-anchor":"end"});
+  aLast.setAttribute("style","font-variant-numeric:tabular-nums");
+  aLast.textContent = "3,424.54 ₪";
+  svg.appendChild(aLast);
+
+  // hover: crosshair + tooltip on the nearest point
+  var cross = el("line", {x1:0, x2:0, y1:Y0 - 6, y2:Y1, stroke:"var(--axis)",
+    "stroke-width":1, "stroke-dasharray":"3 3", opacity:0});
+  svg.appendChild(cross);
+  var halo = el("circle", {r:8, fill:"none", stroke:"var(--series)", "stroke-width":2, opacity:0});
+  svg.appendChild(halo);
+
+  function showTip(ev){
+    var r = svg.getBoundingClientRect();
+    var px = (ev.clientX - r.left) / r.width * W;
+    var best = SERIES[0], bd = Infinity;
+    SERIES.forEach(function(p){
+      var dd = Math.abs(x(p.day) - px);
+      if (dd < bd){ bd = dd; best = p; }
+    });
+    cross.setAttribute("x1", x(best.day)); cross.setAttribute("x2", x(best.day));
+    cross.setAttribute("opacity", 1);
+    halo.setAttribute("cx", x(best.day)); halo.setAttribute("cy", y(best.bal));
+    halo.setAttribute("stroke", best.paid ? "var(--good)" : "var(--series)");
+    halo.setAttribute("opacity", 1);
+    tip.textContent = "";
+    var d1 = document.createElement("div"); d1.className = "t-d"; d1.textContent = best.label;
+    var d2 = document.createElement("div"); d2.className = "t-v";
+    d2.textContent = best.bal === 0 ? "יתרה 0.00 ₪" : "חוב " + ILS(best.bal) + " ₪";
+    var d3 = document.createElement("div"); d3.className = "t-n"; d3.textContent = best.note;
+    tip.appendChild(d1); tip.appendChild(d2); tip.appendChild(d3);
+    tip.style.opacity = 1;
+    tip.style.left = (x(best.day) / W * 100) + "%";
+    tip.style.top  = (y(best.bal) / H * r.height) + "px";
+  }
+  function hideTip(){
+    tip.style.opacity = 0; cross.setAttribute("opacity", 0); halo.setAttribute("opacity", 0);
+  }
+  box.addEventListener("mousemove", showTip);
+  box.addEventListener("mouseleave", hideTip);
+  box.addEventListener("touchmove", function(e){ showTip(e.touches[0]); }, {passive:true});
+  box.addEventListener("touchend", hideTip);
+
+  /* ---------- May vs June deltas ---------- */
+  var DELTAS = [
+    {k:"מים — מעבר להקצאה", from:38.45,   to:398.43,  fmt:"פי 10.4"},
+    {k:"חשמל",              from:823.41,  to:1125.43, fmt:"+36.7%"},
+    {k:"ביוב",              from:13.03,   to:25.02,   fmt:"+92.0%"},
+    {k:"סל, אינטרנט, סיעודי", from:628.00, to:628.00, fmt:"ללא שינוי", flat:true}
+  ];
+  var dEl = document.getElementById("deltas");
+  DELTAS.forEach(function(x2){
+    var card = document.createElement("div"); card.className = "delta";
+    var k = document.createElement("div"); k.className = "k"; k.textContent = x2.k;
+    var d = document.createElement("div"); d.className = "d " + (x2.flat ? "flat" : "up");
+    var ar = document.createElement("span"); ar.className = "arrow";
+    ar.textContent = x2.flat ? "=" : "▲";
+    var vs = document.createElement("span"); vs.className = "dv"; vs.textContent = x2.fmt;
+    d.appendChild(ar);
+    d.appendChild(vs);
+    var f = document.createElement("div"); f.className = "flow num";
+    f.textContent = ILS(x2.from) + " ← " + ILS(x2.to) + " ₪";
+    card.appendChild(k); card.appendChild(d); card.appendChild(f);
+    dEl.appendChild(card);
+  });
+
+  /* ---------- transactions table ---------- */
+  var tbody = document.getElementById("tbody");
+  var chipsEl = document.getElementById("chips");
+  var footCount = document.getElementById("foot-count");
+  var footSum = document.getElementById("foot-sum");
+  var rowsNote = document.getElementById("rows-note");
+  var cats = ["הכל"].concat(["חינוך","חשמל","סל שירותים","מים","ביוב","אינטרנט","ביטוח סיעודי","אירועי קהילה","תשלום"]);
+  var active = "הכל";
+
+  function renderTable(){
+    var rows = TX.filter(function(t){ return active === "הכל" || t.cat === active; });
+    tbody.textContent = "";
+    var sumD = 0, sumC = 0;
+    rows.forEach(function(t){
+      sumD += t.debit; sumC += t.credit;
+      var tr = document.createElement("tr");
+      if (t.credit) tr.className = "is-credit";
+      [
+        ["n", t.d],
+        ["n", t.v],
+        ["", t.desc],
+        ["", t.cat],
+        ["n debit", t.debit ? ILS(t.debit) : "—"],
+        ["n credit", t.credit ? ILS(t.credit) : "—"],
+        ["n bal", ILS(Math.abs(t.bal))]
+      ].forEach(function(c){
+        var td = document.createElement("td");
+        td.className = c[0]; td.textContent = c[1];
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+    footCount.textContent = rows.length + " תנועות" + (active === "הכל" ? "" : " · " + active);
+    footSum.textContent = "חובה " + ILS(sumD) + " ₪  ·  זכות " + ILS(sumC) + " ₪";
+    rowsNote.textContent = active === "הכל"
+      ? "עמודת היתרה היא הסכום שנותר בחובה אחרי כל תנועה"
+      : "מסונן לפי " + active;
+  }
+
+  /* ---------- 60th-anniversary seal, drawn to match the emblem
+       used at the kibbutz's חג הקיבוץ event on 9 July 2026 ---------- */
+  (function drawSeal(){
+    var s = document.getElementById("seal");
+    if (!s) return;
+    var CREAM = "#f2ead2", ORANGE = "#dd8b2d", GRASS = "#5f8a2c",
+        FIELD_L = "#a9c66b", FIELD_D = "#6d9438", OLIVE = "#3f5720";
+    var CX = 100, CY = 100;
+
+    function add(tag, attrs, parent){
+      var n = document.createElementNS(SVGNS, tag);
+      for (var k in attrs) n.setAttribute(k, attrs[k]);
+      (parent || s).appendChild(n);
+      return n;
+    }
+    // letters placed one by one around the circle — reliable for Hebrew,
+    // which textPath renders inconsistently across browsers
+    function arc(str, radius, a0, a1, size, fill, weight, flip){
+      var chars = str.split("");
+      var step = chars.length > 1 ? (a1 - a0) / (chars.length - 1) : 0;
+      chars.forEach(function(ch, i){
+        if (ch === " ") return;
+        var a = a0 + step * i, rad = a * Math.PI / 180;
+        var px = CX + radius * Math.sin(rad), py = CY - radius * Math.cos(rad);
+        var t = add("text", {
+          x:px, y:py, fill:fill, "font-size":size, "font-weight":weight,
+          "font-family":"var(--sans)", "text-anchor":"middle",
+          transform:"rotate(" + (a + (flip ? 180 : 0)) + " " + px + " " + py + ")"
+        });
+        t.textContent = ch;
+      });
+    }
+
+    add("circle", {cx:CX, cy:CY, r:97, fill:CREAM});
+    add("circle", {cx:CX, cy:CY, r:92.5, fill:"none", stroke:ORANGE,
+      "stroke-width":1, opacity:.35});
+
+    // fields + tractor, kept inside the disc so the bottom motto stays clear
+    var clip = add("clipPath", {id:"sealClip"});
+    add("circle", {cx:CX, cy:CY, r:77}, clip);
+    var g = add("g", {"clip-path":"url(#sealClip)"});
+    // the horizon curves on the emblem rather than running flat
+    add("path", {d:"M12,142 Q100,127 188,142 L188,194 L12,194 Z", fill:FIELD_L}, g);
+    for (var i = 0; i < 11; i++){
+      var bx = 12 + i * 17.6;
+      add("path", {d:"M100,137 L" + bx.toFixed(1) + ",194 L" +
+        (bx + 8.4).toFixed(1) + ",194 Z", fill:FIELD_D, opacity:.85}, g);
+    }
+    // tractor silhouette, facing left, as on the emblem
+    var tr = add("g", {fill:OLIVE}, g);
+    add("rect", {x:83, y:143, width:3.4, height:12, rx:1.2}, tr);      // exhaust
+    add("rect", {x:81, y:153, width:17, height:10, rx:2}, tr);         // hood
+    add("rect", {x:96, y:145, width:19, height:17, rx:2.5}, tr);       // cab block
+    add("rect", {x:99, y:139, width:10, height:7, rx:1.8}, tr);        // seat back
+    add("circle", {cx:110, cy:164, r:11.5}, tr);                       // rear wheel
+    add("circle", {cx:110, cy:164, r:4.4, fill:CREAM}, tr);
+    add("circle", {cx:87, cy:168, r:7.2}, tr);                         // front wheel
+    add("circle", {cx:87, cy:168, r:2.7, fill:CREAM}, tr);
+
+    arc("חג הקיבוץ", 69, 52, -52, 19, ORANGE, 800, false);
+    var n60 = add("text", {x:95, y:103, fill:ORANGE, "font-size":47,
+      "font-weight":800, "font-family":"var(--sans)", "text-anchor":"middle"});
+    n60.textContent = "60";
+    var nHe = add("text", {x:133, y:99, fill:ORANGE, "font-size":19,
+      "font-weight":800, "font-family":"var(--sans)", "text-anchor":"middle"});
+    nHe.textContent = "ה-";
+    var nm = add("text", {x:CX, y:126, fill:GRASS, "font-size":22,
+      "font-weight":800, "font-family":"var(--sans)", "text-anchor":"middle"});
+    nm.textContent = "שדה יואב";
+    arc("נושמים עבר, יוצרים מחר", 87, 122, 238, 10.5, OLIVE, 700, true);
+  })();
+
+  cats.forEach(function(c){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "chip"; b.textContent = c;
+    b.setAttribute("aria-pressed", c === active ? "true" : "false");
+    b.addEventListener("click", function(){
+      active = c;
+      Array.prototype.forEach.call(chipsEl.children, function(n){
+        n.setAttribute("aria-pressed", n.textContent === c ? "true" : "false");
+      });
+      renderTable();
+    });
+    chipsEl.appendChild(b);
+  });
+  renderTable();
+})();
+</script>
+</html>
