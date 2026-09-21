@@ -116,11 +116,18 @@
   /* ---------- bars ---------- */
   .bars{display:flex; flex-direction:column; gap:3px;}
   .bar-row{
-    display:grid; grid-template-columns:112px 1fr 86px 46px; gap:11px;
-    align-items:center; padding:6px 7px; border-radius:8px; cursor:default;
+    display:grid; grid-template-columns:112px 1fr 86px 46px 16px; gap:11px;
+    align-items:center; padding:6px 7px; border-radius:8px; cursor:pointer;
     transition:background .12s ease;
+    font:inherit; color:inherit; background:none; border:0;
+    width:100%; text-align:inherit;
   }
   .bar-row:hover{background:var(--series-ghost);}
+  .bar-row .go{
+    font-size:15px; color:var(--muted); line-height:1; text-align:center;
+    transition:color .12s ease, transform .12s ease;
+  }
+  .bar-row:hover .go{color:var(--series); transform:translateX(-2px);}
   .bar-row .cat{font-size:13.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
   .track{position:relative; height:17px; background:var(--surface-2); border-radius:3px; overflow:hidden;}
   .fill{
@@ -220,6 +227,85 @@
   }
 
   /* ---------- anniversary strip + footer ---------- */
+  /* ---------- drill-down dialog ---------- */
+  .drill{
+    border:1px solid var(--line); border-radius:16px; padding:0;
+    width:min(640px, calc(100% - 28px)); max-height:88dvh;
+    background:var(--surface); color:var(--ink);
+    direction:rtl; text-align:right;
+    box-shadow:0 24px 70px rgba(0,0,0,.30);
+  }
+  .drill::backdrop{background:rgba(8,9,6,.55); backdrop-filter:blur(2px);}
+  .drill-head{
+    position:sticky; top:0; z-index:2; display:flex; gap:12px; align-items:flex-start;
+    padding:17px 19px 13px; background:var(--surface);
+    border-bottom:1px solid var(--line); border-radius:16px 16px 0 0;
+  }
+  .drill-head .ttl{flex:1; min-width:0;}
+  .drill-head h3{font-family:var(--serif); font-size:21px; line-height:1.25;}
+  .drill-head .sub{font-size:12.5px; color:var(--ink-2); margin-top:2px;}
+  .drill-head .amt{
+    font-size:26px; font-weight:700; line-height:1.15; margin-top:6px;
+    font-variant-numeric:tabular-nums;
+  }
+  .d-close{
+    flex:none; width:36px; height:36px; border-radius:10px; cursor:pointer;
+    background:var(--surface-2); border:1px solid var(--line); color:var(--ink-2);
+    font-size:15px; line-height:1; font-family:var(--sans);
+  }
+  .d-close:hover{color:var(--ink); background:var(--surface-3);}
+  .drill-body{padding:4px 19px 20px; overflow-y:auto;}
+  .d-block{margin-top:18px;}
+  .d-block > .d-h{
+    display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; margin-bottom:8px;
+  }
+  .d-block .d-h b{font-size:13.5px; font-weight:700;}
+  .d-block .d-h span{font-size:12px; color:var(--muted);}
+  .d-lines{list-style:none; margin:0; padding:0; display:flex; flex-direction:column;}
+  .d-lines li{
+    display:flex; justify-content:space-between; gap:14px; align-items:baseline;
+    font-size:13px; padding:7px 0; border-bottom:1px solid var(--line-2);
+  }
+  .d-lines li:last-child{border-bottom:0;}
+  .d-lines li i{font-style:normal; color:var(--ink-2); min-width:0;}
+  .d-lines li b{font-weight:600; font-variant-numeric:tabular-nums; flex:none;}
+  .d-lines li.sum{
+    border-top:1px solid var(--line); border-bottom:0; margin-top:4px; padding-top:9px;
+  }
+  .d-lines li.sum i, .d-lines li.sum b{font-weight:700; color:var(--ink);}
+  .d-chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:10px;}
+  .d-chips span{
+    font-size:11.5px; color:var(--ink-2); background:var(--surface-2);
+    border:1px solid var(--line-2); border-radius:7px; padding:3px 8px;
+    font-variant-numeric:tabular-nums;
+  }
+  .d-note{
+    font-size:12.5px; color:var(--ink-2); line-height:1.55; margin-top:10px;
+    padding:10px 12px; border-radius:10px;
+    background:var(--surface-2); border-inline-start:3px solid var(--axis);
+  }
+  .d-note.flag{background:var(--brand-soft); border-inline-start-color:var(--brand);}
+  .d-note b{color:var(--ink); font-weight:700;}
+  .d-doc{margin-top:8px;}
+  .d-doc figure{margin:0;}
+  .d-scroll{
+    overflow:auto; max-height:420px; border:1px solid var(--line);
+    border-radius:10px; background:#fff; -webkit-overflow-scrolling:touch;
+  }
+  .d-scroll img{display:block; width:100%; height:auto; cursor:zoom-in;}
+  .d-scroll.zoomed{cursor:grab;}
+  .d-scroll.zoomed img{width:auto; max-width:none; cursor:zoom-out;}
+  .d-doc figcaption{
+    font-size:11.5px; color:var(--muted); margin-top:7px;
+    display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
+  }
+  .d-zoom{
+    font:inherit; font-size:12px; font-weight:600; cursor:pointer;
+    background:var(--surface-2); color:var(--ink-2);
+    border:1px solid var(--line); border-radius:8px; padding:5px 11px;
+  }
+  .d-zoom:hover{color:var(--ink);}
+
   footer{margin-top:34px;}
   .anniv{
     display:flex; align-items:center; gap:18px;
@@ -247,8 +333,15 @@
     .mark{width:58px;}
     h1{font-size:23px;}
     .anniv{flex-direction:column; align-items:flex-start; gap:12px;}
-    .bar-row{grid-template-columns:92px 1fr 78px; gap:8px;}
+    .bar-row{grid-template-columns:86px 1fr 76px 14px; gap:8px;}
     .bar-row .pct{display:none;}
+    .drill{
+      width:100%; max-width:none; max-height:92dvh;
+      margin:auto auto 0; border-radius:18px 18px 0 0;
+    }
+    .drill-head{border-radius:18px 18px 0 0; padding:15px 16px 12px;}
+    .drill-body{padding:4px 16px calc(20px + env(safe-area-inset-bottom, 0px));}
+    .d-scroll{max-height:340px;}
     /* drop the two reference columns so date, details and the money
        fit without a sideways swipe */
     .col-val,.col-cat{display:none;}
@@ -312,7 +405,7 @@
   <section>
     <div class="sec-head">
       <h2>על מה החוב</h2>
-      <span class="note hover-only">עברו על שורה לפירוט</span>
+      <span class="note">לחצו על שורה לפירוט ולחשבון המקור</span>
       <div class="seg" role="group" aria-label="טווח החישוב">
         <button type="button" id="seg-open" aria-pressed="true">היתרה הפתוחה · 3,424.54 ₪</button>
         <button type="button" id="seg-all" aria-pressed="false">כל התקופה · 6,225.09 ₪</button>
@@ -388,6 +481,18 @@
       </div>
     </div>
   </section>
+
+  <dialog class="drill" id="drill" aria-labelledby="d-title">
+    <div class="drill-head">
+      <div class="ttl">
+        <h3 id="d-title"></h3>
+        <div class="sub" id="d-sub"></div>
+        <div class="amt" id="d-amt"></div>
+      </div>
+      <button type="button" class="d-close" id="d-close" aria-label="סגירת החלון">✕</button>
+    </div>
+    <div class="drill-body" id="d-body"></div>
+  </dialog>
 
   <footer>
     <div class="anniv">
@@ -467,6 +572,250 @@
     }
   };
 
+  /* ---------- drill-down: what each charge is made of, plus the
+       original bill it came from ---------- */
+  var BILLS = {
+    electricity: {
+      src:"assets/bills/electricity-2026-08.jpg",
+      alt:"חשבון חשמל 54554 של קיבוץ שדה יואב לחודש אוגוסט 2026",
+      cap:"חשבון חשמל 54554 · אוגוסט 2026 · נערך 6/9/2026"
+    },
+    water: {
+      src:"assets/bills/water-2026-08.jpg",
+      alt:"חשבון מים 39442 של קיבוץ שדה יואב לחודש אוגוסט 2026",
+      cap:"חשבון מים 39442 · אוגוסט 2026"
+    },
+    education: {
+      src:"assets/bills/education-2026-05.jpg",
+      alt:"חשבונית מס 64589 על חינוך מרכז חברתי",
+      cap:"חשבונית מס 64589 · 18/05/2026 · חינוך 5/26"
+    }
+  };
+
+  var DRILL = {
+    "חשמל": {
+      bill:"electricity",
+      open:{
+        sub:"חיוב מיום 30/06/26 · חשמל 6/26", amt:"1,125.43 ₪",
+        lines:[["סכום החיוב כפי שהוא בדף החשבון","1,125.43 ₪"],
+               ["מתוכו מע״מ 18%","171.68 ₪"],
+               ["לפני מע״מ","953.75 ₪"]]
+      },
+      all:{
+        sub:"שני חיובים · מאי ויוני 2026", amt:"1,948.84 ₪",
+        lines:[["חשמל 5/26 · חיוב מ־31/05/26","823.41 ₪"],
+               ["חשמל 6/26 · חיוב מ־30/06/26","1,125.43 ₪"],
+               ["השינוי בין החודשים","+302.02 ₪ · +36.7%"],
+               ["סה״כ בתקופה","1,948.84 ₪",1]]
+      },
+      billTitle:"איך בנוי חשבון החשמל", billWhen:"לפי חשבון 54554, אוגוסט 2026",
+      billLines:[["צריכת חשמל — 1,937 קוט״ש × 0.5383 ₪","1,042.69 ₪"],
+                 ["תשלום בגין הספק (KVA)","9.08 ₪"],
+                 ["תשלום קבוע","27.09 ₪"],
+                 ["סה״כ לפני מע״מ","1,078.86 ₪"],
+                 ["מע״מ 18%","194.19 ₪"],
+                 ["סה״כ לתשלום","1,273.05 ₪",1]],
+      chips:["מונה 25020654","קריאה 20,964 ← 22,901","31 ימים","תעריף 2 · ביתי אחיד תלת פאזי",
+             "גודל חיבור 3X25","0.6352 ₪ לקוט״ש כולל מע״מ","לתשלום עד 15/09/2026"],
+      note:"דף החשבון מציג סכום אחד לחודש. הפירוק לרכיבים — צריכה, הספק ותשלום קבוע — קיים רק בחשבון החשמל עצמו.",
+      flag:"חשבון החשמל שצורף הוא של <b>אוגוסט 2026</b>, חודש אחרי התקופה שבדף החשבון. המבנה והתעריף זהים; הסכומים בו הם של אוגוסט."
+    },
+
+    "מים": {
+      bill:"water",
+      open:{
+        sub:"חיוב מיום 30/06/26 · מים 6/26", amt:"446.09 ₪",
+        lines:[["צריכה בהקצאה","47.66 ₪"],
+               ["צריכה מעבר להקצאה","398.43 ₪"],
+               ["סה״כ","446.09 ₪",1]],
+        extraTitle:"כמה מים זה היה", extraWhen:"חושב מהסכומים לפי התעריפים שבחשבון",
+        extra:[["כמות בהקצאה — 47.66 ÷ 4.539 ₪","10.50 מ״ק"],
+               ["כמות חריגה — 398.43 ÷ 11.650 ₪","34.20 מ״ק"],
+               ["צריכה ביוני","44.70 מ״ק",1]]
+      },
+      all:{
+        sub:"שני חיובים · מאי ויוני 2026", amt:"532.20 ₪",
+        lines:[["מים 5/26 — בהקצאה 47.66 + חריגה 38.45","86.11 ₪"],
+               ["מים 6/26 — בהקצאה 47.66 + חריגה 398.43","446.09 ₪"],
+               ["סה״כ בתקופה","532.20 ₪",1]],
+        extraTitle:"כמה מים זה היה", extraWhen:"חושב מהסכומים לפי התעריפים שבחשבון",
+        extra:[["מאי — 10.50 בהקצאה + 3.30 חריגה","13.80 מ״ק"],
+               ["יוני — 10.50 בהקצאה + 34.20 חריגה","44.70 מ״ק"]]
+      },
+      billTitle:"איך בנוי חשבון המים", billWhen:"לפי חשבון 39442, אוגוסט 2026",
+      billLines:[["צריכה בהקצאה — 10.50 מ״ק × 4.539 ₪","47.66 ₪"],
+                 ["צריכה חריגה — 25.30 מ״ק × 11.650 ₪","294.75 ₪"],
+                 ["ביוב ציבורי בקיבוץ — 27.39 מ״ק × 0.944 ₪","25.85 ₪"],
+                 ["סה״כ לפני מע״מ","312.09 ₪"],
+                 ["מע״מ 18%","56.18 ₪"],
+                 ["סה״כ לתשלום","368.26 ₪",1]],
+      chips:["מונה 14390494","קריאה 3,395.80 ← 3,431.60","צריכה 35.80 מ״ק","תעריף 3 נפשות",
+             "הקצאה 10.50 מ״ק לחודש","מתחילת השנה 231.2 מ״ק"],
+      note:"<b>ההקצאה היא 10.50 מ״ק לחודש</b> למשק בית של 3 נפשות, ועולה 4.539 ₪ למ״ק. כל מ״ק מעבר לה עולה 11.650 ₪ — פי 2.57. ביוני נצרכו 44.70 מ״ק, מתוכם 34.20 מעבר להקצאה. זה כל ההסבר לקפיצה בחיוב.",
+      flag:"חשבון המים שצורף הוא של <b>אוגוסט 2026</b>. הכמויות של מאי ויוני חושבו מהסכומים שבדף החשבון לפי אותם תעריפים, והן תואמות לגרף הצריכה שבחשבון עצמו (14 ו־45 מ״ק)."
+    },
+
+    "ביוב": {
+      bill:"water",
+      open:{ sub:"חיוב מיום 30/06/26 · ביוב 6.2026", amt:"25.02 ₪",
+        lines:[["ביוב 6.2026","25.02 ₪"],["לפני מע״מ","21.20 ₪"]] },
+      all:{ sub:"שני חיובים · מאי ויוני 2026", amt:"38.05 ₪",
+        lines:[["ביוב 5.2026 · 31/05/26","13.03 ₪"],
+               ["ביוב 6.2026 · 30/06/26","25.02 ₪"],
+               ["סה״כ בתקופה","38.05 ₪",1]] },
+      billTitle:"שורת הביוב בחשבון המים", billWhen:"לפי חשבון 39442, אוגוסט 2026",
+      billLines:[["ביוב ציבורי בקיבוץ — 27.39 מ״ק × 0.800 ₪ לפני מע״מ","21.91 ₪"],
+                 ["אותה שורה כולל מע״מ — × 0.944 ₪","25.85 ₪",1]],
+      chips:["0.944 ₪ למ״ק כולל מע״מ","מחויב על 27.39 מ״ק"],
+      note:"הביוב מחויב על נפח נמוך מצריכת המים — באוגוסט 27.39 מ״ק מול 35.80 מ״ק שנצרכו."
+    },
+
+    "חינוך": {
+      bill:"education",
+      open:{ sub:"חיוב מיום 14/07/26 · חינוך 7.26 · אסמכתא 2: 20267100", amt:"1,200.00 ₪",
+        lines:[["חינוך 7.26","1,200.00 ₪"],["מע״מ","0.00 ₪ · פטור"]] },
+      all:{ sub:"שני חיובים · יוני ויולי 2026", amt:"2,400.00 ₪",
+        lines:[["חינוך שכירות 6.26 · 15/06/26 · אסמ׳ 2: 20265100","1,200.00 ₪"],
+               ["חינוך 7.26 · 14/07/26 · אסמ׳ 2: 20267100","1,200.00 ₪"],
+               ["סה״כ בתקופה","2,400.00 ₪",1]] },
+      billTitle:"מה יש בחשבונית", billWhen:"חשבונית מס 64589 · 18/05/2026",
+      billLines:[["חינוך מרכז חברתי א-ב — פטור · פריט 1500105","1,200.00 ₪"],
+                 ["הנחה","0.00 ₪"],
+                 ["מע״מ 18%","0.00 ₪ · פטור"],
+                 ["סה״כ לתשלום","1,200.00 ₪",1]],
+      chips:["חשבונית 64589","תאריך תשלום 18/05/2026","אסמ׳ 2: 20265100","מפתח 5440042","פטור ממע״מ"],
+      note:"זה החיוב הקבוע הגדול ביותר — 1,200 ₪ בכל חודש, ללא מע״מ. הוא לבדו 35% מהיתרה הפתוחה.",
+      flag:"אסמכתא 2 שעל החשבונית — <b>20265100</b> — היא אותה אסמכתא שמופיעה בשורת החיוב מ־15/06/26 בדף החשבון, כך שזו חשבונית המקור של אותו חיוב."
+    },
+
+    "סל שירותים": {
+      open:{ sub:"חיוב מיום 30/06/26 · סל שירותים 06.2026", amt:"550.00 ₪",
+        lines:[["סל שירותים 06.2026","550.00 ₪"]] },
+      all:{ sub:"שני חיובים · מאי ויוני 2026", amt:"1,100.00 ₪",
+        lines:[["סל שירותים 05.2026 · 31/05/26","550.00 ₪"],
+               ["סל שירותים 06.2026 · 30/06/26","550.00 ₪"],
+               ["סה״כ בתקופה","1,100.00 ₪",1]] },
+      note:"תעריף חודשי קבוע. לא השתנה בין החודשים, ולא צורף לו חשבון מקור."
+    },
+    "אינטרנט": {
+      open:{ sub:"חיוב מיום 30/06/26 · אינטרנט 06.2026", amt:"46.00 ₪",
+        lines:[["אינטרנט 06.2026","46.00 ₪"]] },
+      all:{ sub:"שני חיובים · מאי ויוני 2026", amt:"92.00 ₪",
+        lines:[["אינטרנט 05.2026 · 31/05/26","46.00 ₪"],
+               ["אינטרנט 06.2026 · 30/06/26","46.00 ₪"],
+               ["סה״כ בתקופה","92.00 ₪",1]] },
+      note:"תעריף חודשי קבוע. לא צורף חשבון מקור."
+    },
+    "ביטוח סיעודי": {
+      open:{ sub:"חיוב מיום 30/06/26 · ביטוח סיעודי 06.2026", amt:"32.00 ₪",
+        lines:[["ביטוח סיעודי 06.2026","32.00 ₪"]] },
+      all:{ sub:"שני חיובים · מאי ויוני 2026", amt:"64.00 ₪",
+        lines:[["ביטוח סיעודי 05.2026 · 30/05/26","32.00 ₪"],
+               ["ביטוח סיעודי 06.2026 · 30/06/26","32.00 ₪"],
+               ["סה״כ בתקופה","64.00 ₪",1]] },
+      note:"תעריף חודשי קבוע. לא צורף חשבון מקור."
+    },
+    "אירועי קהילה": {
+      all:{ sub:"חיוב חד־פעמי · תאריך ערך 25/05/26", amt:"50.00 ₪",
+        lines:[["חגיגת נובי גוד 2026","50.00 ₪"]] },
+      note:"החיוב היחיד בתקופה שאינו חודשי. נרשם בתאריך 25/01/26 עם תאריך ערך 25/05/26, ונכלל בתשלום מ־16/06."
+    }
+  };
+
+  var dlg = document.getElementById("drill");
+  var dTitle = document.getElementById("d-title");
+  var dSub = document.getElementById("d-sub");
+  var dAmt = document.getElementById("d-amt");
+  var dBody = document.getElementById("d-body");
+
+  function lineList(rows){
+    var ul = document.createElement("ul");
+    ul.className = "d-lines";
+    rows.forEach(function(r){
+      var li = document.createElement("li");
+      if (r[2]) li.className = "sum";
+      var i = document.createElement("i"); i.textContent = r[0];
+      var b = document.createElement("b"); b.textContent = r[1];
+      li.appendChild(i); li.appendChild(b); ul.appendChild(li);
+    });
+    return ul;
+  }
+  function block(title, when, node){
+    var d = document.createElement("div"); d.className = "d-block";
+    var h = document.createElement("div"); h.className = "d-h";
+    var b = document.createElement("b"); b.textContent = title;
+    h.appendChild(b);
+    if (when){ var s = document.createElement("span"); s.textContent = when; h.appendChild(s); }
+    d.appendChild(h); d.appendChild(node);
+    return d;
+  }
+  function noteEl(html, flag){
+    var p = document.createElement("p");
+    p.className = "d-note" + (flag ? " flag" : "");
+    p.innerHTML = html;
+    return p;
+  }
+
+  function openDrill(cat, viewKey){
+    var d = DRILL[cat];
+    if (!d) return;
+    var v = d[viewKey] || d.all || d.open;
+
+    dTitle.textContent = cat;
+    dSub.textContent = v.sub;
+    dAmt.textContent = v.amt;
+    dBody.textContent = "";
+
+    dBody.appendChild(block("מה מרכיב את החיוב", "מתוך דף החשבון", lineList(v.lines)));
+    if (v.extra) dBody.appendChild(block(v.extraTitle, v.extraWhen, lineList(v.extra)));
+    if (d.note) dBody.appendChild(noteEl(d.note));
+    if (d.billLines){
+      dBody.appendChild(block(d.billTitle, d.billWhen, lineList(d.billLines)));
+      if (d.chips){
+        var cw = document.createElement("div"); cw.className = "d-chips";
+        d.chips.forEach(function(c){ var s = document.createElement("span"); s.textContent = c; cw.appendChild(s); });
+        dBody.appendChild(cw);
+      }
+    }
+    if (d.flag) dBody.appendChild(noteEl(d.flag, true));
+
+    if (d.bill){
+      var bill = BILLS[d.bill];
+      var wrap = document.createElement("div"); wrap.className = "d-doc";
+      var fig = document.createElement("figure");
+      var sc = document.createElement("div"); sc.className = "d-scroll";
+      var img = document.createElement("img");
+      img.src = bill.src; img.alt = bill.alt; img.loading = "lazy";
+      sc.appendChild(img);
+      var cap = document.createElement("figcaption");
+      var capT = document.createElement("span"); capT.textContent = bill.cap;
+      var zoom = document.createElement("button");
+      zoom.type = "button"; zoom.className = "d-zoom"; zoom.textContent = "הגדלה";
+      function toggleZoom(){
+        var on = sc.classList.toggle("zoomed");
+        zoom.textContent = on ? "התאמה לרוחב" : "הגדלה";
+        if (on) sc.scrollTop = 0;
+      }
+      zoom.addEventListener("click", toggleZoom);
+      img.addEventListener("click", toggleZoom);
+      cap.appendChild(capT); cap.appendChild(zoom);
+      fig.appendChild(sc); fig.appendChild(cap);
+      wrap.appendChild(fig);
+      dBody.appendChild(block("חשבון המקור", "לחצו על התמונה להגדלה", wrap));
+    } else {
+      dBody.appendChild(noteEl("לסעיף הזה לא צורף חשבון מקור."));
+    }
+
+    dBody.scrollTop = 0;
+    if (typeof dlg.showModal === "function") dlg.showModal(); else dlg.setAttribute("open", "");
+  }
+
+  document.getElementById("d-close").addEventListener("click", function(){ dlg.close(); });
+  // click outside the panel closes it
+  dlg.addEventListener("click", function(e){
+    if (e.target === dlg) dlg.close();
+  });
+
   var barsEl = document.getElementById("bars");
   var footA = document.getElementById("bars-foot-a");
   var footB = document.getElementById("bars-foot-b");
@@ -478,9 +827,10 @@
     var max = view.items[0].val;
     barsEl.textContent = "";
     view.items.forEach(function(it){
-      var row = document.createElement("div");
+      var row = document.createElement("button");
+      row.type = "button";
       row.className = "bar-row";
-      row.title = it.cat + " — " + ILS(it.val) + " ₪ · " + it.note;
+      row.setAttribute("aria-label", it.cat + " — " + ILS(it.val) + " ₪. פתיחת פירוט.");
 
       var cat = document.createElement("div");
       cat.className = "cat"; cat.textContent = it.cat;
@@ -497,7 +847,13 @@
       var pct = document.createElement("div");
       pct.className = "pct num"; pct.textContent = (it.val / view.total * 100).toFixed(1) + "%";
 
-      row.appendChild(cat); row.appendChild(track); row.appendChild(val); row.appendChild(pct);
+      var go = document.createElement("div");
+      go.className = "go"; go.setAttribute("aria-hidden", "true");
+      go.textContent = "‹";
+
+      row.appendChild(cat); row.appendChild(track); row.appendChild(val);
+      row.appendChild(pct); row.appendChild(go);
+      row.addEventListener("click", function(){ openDrill(it.cat, key); });
       barsEl.appendChild(row);
       requestAnimationFrame(function(){ fill.style.width = (it.val / max * 100) + "%"; });
     });
